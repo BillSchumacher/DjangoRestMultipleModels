@@ -109,7 +109,8 @@ class BaseMultipleModelMixin(object):
 
             # Run the paired serializer
             context = self.get_serializer_context()
-            data = query_data['serializer_class'](queryset, many=True, context=context).data
+            many = query_data.get('many', True)
+            data = query_data['serializer_class'](queryset, many=many, context=context).data
 
             label = self.get_label(queryset, query_data)
 
