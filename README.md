@@ -38,6 +38,7 @@ from drf_multiple_model.views import ObjectMultipleModelAPIView
 
 # Features
 
+* Nested data supported by passing in a label with .'s, a key will be added for each word separated by .'s.
 * Send multiple serialized models as separate arrays, one merged list, or a single JSON object
 * Sort different serialized models using shared fields
 * pagination
