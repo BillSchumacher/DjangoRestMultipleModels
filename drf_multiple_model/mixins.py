@@ -316,8 +316,29 @@ class ObjectMultipleModelMixin(BaseMultipleModelMixin):
     """
     result_type = dict
 
+    @staticmethod
+    def split_label_path(label):
+        split_label = label.split('.')
+        return split_label, len(split_label)
+
+    def resolve_dict_path(self, data, split_label, layers, results, layer=0):
+        if layer == layers - 1:
+            results[split_label[layer]] = data
+            return results
+        try:
+            result = results[split_label[layer]]
+        except KeyError:
+            results[split_label[layer]] = {}
+            result = results[split_label[layer]]
+        results[split_label[layer]] = self.resolve_dict_path(data, split_label, layers, result, layer + 1)
+        return results
+
     def add_to_results(self, data, label, results):
-        results[label] = data
+        if '.' in label:
+            split_label, parts = self.split_label_path(label)
+            return self.resolve_dict_path(data, split_label, parts, results)
+        else:
+            results[label] = data
 
         return results
 
