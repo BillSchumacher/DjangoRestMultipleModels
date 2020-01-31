@@ -13,6 +13,16 @@ class BaseAPIView(GenericAPIView):
     def get_queryset(self):
         return None
 
+    def detail(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
+
+    @classmethod
+    def get_extra_actions(cls):
+        """
+        Get the methods that are marked as an extra ViewSet `@action`.
+        """
+        return []
+
     @classonlymethod
     def as_view(cls, actions=None, **initkwargs):
         """
